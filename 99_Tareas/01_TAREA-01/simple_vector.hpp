@@ -10,64 +10,68 @@ const int INITIAL_CAPACITY = 10;
 // this class is basically a wrapper for a pointer ptr
 class BidirIterator {
 private:
+    /*Class properties*/
     double *ptr;
-    
+
 public:
-    BidirIterator() { ptr = nullptr; }      // default constructor
-    BidirIterator(double *beg);             // constructor
-    BidirIterator(const BidirIterator& it); // copy constructor
-    ~BidirIterator() {}                     // destructor
-    
-    // dereference operator
-    double & operator*();
-    
-    // prefix/postfix ++ operators
-    BidirIterator & operator++();  // ++it
-    BidirIterator operator++(int); // it++
-    // prefix/postfix -- operators
-    BidirIterator & operator--();  // --it
-    BidirIterator operator--(int); // it--
-    
-    // assignment operator
-    void operator=(const BidirIterator it);
-    
-    // comparison operators
-    bool operator==(const BidirIterator it);
-    bool operator!=(const BidirIterator it);
+    /*Constructors & Destructor*/
+    BidirIterator();// { ptr = nullptr; }      /* default constructor */
+    BidirIterator(double *beg);             /* constructor */
+    BidirIterator(const BidirIterator& it); /* copy constructor */
+    ~BidirIterator():                       /* destructor */
+
+
+    /*Class operators*/
+    double & operator*(); // dereference operator
+
+    BidirIterator & operator++();  /* ++it (prefix ++ operator)*/
+    BidirIterator operator++(int); /* it++ (postfix ++ operator)*/
+    BidirIterator & operator--();  /* --it (prefix -- operator) */
+    BidirIterator operator--(int); /* it-- (postfix -- operator)*/
+
+    void operator=(const BidirIterator it);     /* assignment operator*/
+
+    bool operator==(const BidirIterator it);     /* comparison operators*/
+    bool operator!=(const BidirIterator it);    /* comparison operators*/
+
 };
 
 
 class SimpleVec {
 private:
+    /*Class properties*/
     double *array;
     int capacity, length;
-    
+
+    /*Private Methods*/
     void expandCapacity();
-    
+
 public:
-    // iterator and related methods
+    /*Iterator Related Methods*/
     typedef BidirIterator iterator;
     iterator begin();
     iterator end();
-    
-    // constructors and destructor
+
+    /*Constructors & Destructor*/
     SimpleVec();
     SimpleVec(const SimpleVec& rhs);
     ~SimpleVec();
-    
-    // assignment operator
-    SimpleVec & operator=(const SimpleVec &rhs);
-    
-    // other SimpleVec methods
-    void push(double value);
-    void erase(int index);
+
+    /*Modifier Methods*/
     void insert(int index, double value);
     void modify(int index, double value);
-    double retrieve(int index);
-    
+    void push(double value);
+    void erase(int index);
     void clear();
+
+    /*Accessor Methods*/
+    double retrieve(int index);
     bool empty();
     int size();
+
+    /*Class Operators*/
+    SimpleVec & operator=(const SimpleVec &rhs);
+
 };
 
 #endif
