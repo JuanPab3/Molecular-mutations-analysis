@@ -11,7 +11,8 @@ BidirIterator::BidirIterator() {
 }
 
 BidirIterator::BidirIterator(double *beg) {
-
+    ptr=new double;
+    *ptr=*beg;
 }
 
 BidirIterator::BidirIterator(const BidirIterator& it) {
