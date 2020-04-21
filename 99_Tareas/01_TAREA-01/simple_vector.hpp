@@ -18,21 +18,21 @@ public:
     BidirIterator();// { ptr = nullptr; }      /* default constructor */
     BidirIterator(double *beg);             /* constructor */
     BidirIterator(const BidirIterator& it); /* copy constructor */
-    ~BidirIterator():                       /* destructor */
+    ~BidirIterator();                       /* destructor */
 
 
     /*Class operators*/
-    double & operator*(); // dereference operator
+    double & operator* (); // dereference operator
 
     BidirIterator & operator++();  /* ++it (prefix ++ operator)*/
     BidirIterator operator++(int); /* it++ (postfix ++ operator)*/
     BidirIterator & operator--();  /* --it (prefix -- operator) */
     BidirIterator operator--(int); /* it-- (postfix -- operator)*/
 
-    void operator=(const BidirIterator it);     /* assignment operator*/
+    void operator=(const BidirIterator it);     /* assignment const operator*/
 
-    bool operator==(const BidirIterator it);     /* comparison operators*/
-    bool operator!=(const BidirIterator it);    /* comparison operators*/
+    bool operator==(const BidirIterator it) const;     /* comparison operators*/
+    bool operator!=(const BidirIterator it) const;    /* comparison operators*/
 
 };
 
@@ -48,9 +48,9 @@ private:
 
 public:
     /*Iterator Related Methods*/
-    typedef BidirIterator iterator;
-    iterator begin();
-    iterator end();
+    // typedef BidirIterator iterator;
+    // iterator begin();
+    // iterator end();
 
     /*Constructors & Destructor*/
     SimpleVec();

@@ -11,12 +11,11 @@ BidirIterator::BidirIterator() {
 }
 
 BidirIterator::BidirIterator(double *beg) {
-    ptr=new double;
-    *ptr=*beg;
+    ptr = beg;
 }
 
 BidirIterator::BidirIterator(const BidirIterator& it) {
-
+    *this = it;
 }
 
 BidirIterator::~BidirIterator() {
@@ -25,37 +24,45 @@ BidirIterator::~BidirIterator() {
 }
 /*====================BidirIterator_CLASS_OPERATORS====================*/
 double & BidirIterator::operator*() {
-
+    double *doub = ptr;
+    return *doub;
 }
 
 
 BidirIterator & BidirIterator::operator++() {
-
+    ptr = ptr + 1;
+    std::cout << "lol" << std::endl;
+    return *this;
 }
 
 BidirIterator BidirIterator::operator++(int) {
-
+    BidirIterator temp = ptr;
+    ptr = ptr + 1;
+    return temp;
 }
 
 BidirIterator & BidirIterator::operator--() {
-
+    ptr = ptr - 1;
+    return *this;
 }
 
 BidirIterator BidirIterator::operator--(int) {
-
+    BidirIterator temp = ptr;
+    ptr = ptr - 1;
+    return temp;
 }
 
 
 void BidirIterator::operator=(const BidirIterator it) {
-
+    *this = it;
 }
 
-bool BidirIterator::operator==(const BidirIterator it) {
-
+bool BidirIterator::operator==(const BidirIterator it) const{
+    return *this == it;
 }
 
-bool BidirIterator::operator!=(const BidirIterator it) {
-
+bool BidirIterator::operator!=(const BidirIterator it) const{
+        return *this != it;
 }
 /*=====================================================================*/
 
@@ -73,7 +80,17 @@ void SimpleVec::expandCapacity() {
     delete[] oldArray;
 }
 /*=================SimpleVec_ITERATOR_RELATED_METHODS=================*/
-
+// typedef BidirIterator iterator;
+// iterator SimpleVec::begin(){
+//     BidirIterator tmp;
+//     tmp = array;
+//     return tmp;
+// }
+//
+// typedef BidirIterator iterator;
+// iterator SimpleVec::end(){
+//
+// }
 /*================SimpleVec_CONSTRUCTORS_&_DESTRUCTOR=================*/
 SimpleVec::SimpleVec() : capacity(INITIAL_CAPACITY), length(0) {
     array = new double[capacity];
@@ -93,7 +110,7 @@ SimpleVec::~SimpleVec() {
 /*=====================SimpleVec_MODIFIER_METHODS=====================*/
 void SimpleVec::insert(int index, double value) {
     if(length == capacity) expandCapacity();
-    for(int i = length-1; i > index; --i)
+        for(int i = length-1; i > index; --i)
         array[i] = array[i-1];
         array[index] = value;
     length++;
@@ -130,7 +147,7 @@ int SimpleVec::size() {
     return length;
 }
 /*=====================SimpleVec_CLASS_OPERATORS======================*/
-SimpleVec & SimpleVBidirIterator::ec::operator=(const SimpleVec& rhs) {
+SimpleVec & SimpleVec::operator=(const SimpleVec& rhs) {
     delete[] array;
     capacity = rhs.capacity;
     length = rhs.length;
