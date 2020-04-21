@@ -15,54 +15,51 @@ BidirIterator::BidirIterator(double *beg) {
 }
 
 BidirIterator::BidirIterator(const BidirIterator& it) {
-    *this = it;
+    ptr = it.ptr;
 }
 
 BidirIterator::~BidirIterator() {
-    delete ptr;
     ptr = nullptr;
 }
 /*====================BidirIterator_CLASS_OPERATORS====================*/
 double & BidirIterator::operator*() {
-    double *doub = ptr;
-    return *doub;
+    return *ptr;
 }
 
 
 BidirIterator & BidirIterator::operator++() {
-    ptr = ptr + 1;
-    std::cout << "lol" << std::endl;
+    ++ptr;
     return *this;
 }
 
 BidirIterator BidirIterator::operator++(int) {
-    BidirIterator temp = ptr;
-    ptr = ptr + 1;
+    double *temp = ptr;
+    ++ptr;
     return temp;
 }
 
 BidirIterator & BidirIterator::operator--() {
-    ptr = ptr - 1;
+    ++ptr;
     return *this;
 }
 
 BidirIterator BidirIterator::operator--(int) {
-    BidirIterator temp = ptr;
-    ptr = ptr - 1;
+    double *temp = ptr;
+    --ptr;
     return temp;
 }
 
 
 void BidirIterator::operator=(const BidirIterator it) {
-    *this = it;
+    ptr = it.ptr;
 }
 
 bool BidirIterator::operator==(const BidirIterator it) const{
-    return *this == it;
+    return ptr == it.ptr;
 }
 
 bool BidirIterator::operator!=(const BidirIterator it) const{
-        return *this != it;
+    return ptr != it.ptr;
 }
 /*=====================================================================*/
 
@@ -80,17 +77,15 @@ void SimpleVec::expandCapacity() {
     delete[] oldArray;
 }
 /*=================SimpleVec_ITERATOR_RELATED_METHODS=================*/
-// typedef BidirIterator iterator;
-// iterator SimpleVec::begin(){
-//     BidirIterator tmp;
-//     tmp = array;
-//     return tmp;
-// }
-//
-// typedef BidirIterator iterator;
-// iterator SimpleVec::end(){
-//
-// }
+SimpleVec::iterator SimpleVec::begin(){
+    iterator it(array);
+    return it;
+}
+
+SimpleVec::iterator SimpleVec::end(){
+    iterator it(array + length);
+    return it;
+}
 /*================SimpleVec_CONSTRUCTORS_&_DESTRUCTOR=================*/
 SimpleVec::SimpleVec() : capacity(INITIAL_CAPACITY), length(0) {
     array = new double[capacity];

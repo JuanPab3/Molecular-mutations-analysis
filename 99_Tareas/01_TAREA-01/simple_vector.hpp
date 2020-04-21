@@ -48,9 +48,9 @@ private:
 
 public:
     /*Iterator Related Methods*/
-    // typedef BidirIterator iterator;
-    // iterator begin();
-    // iterator end();
+    typedef BidirIterator iterator;
+    iterator begin();
+    iterator end();
 
     /*Constructors & Destructor*/
     SimpleVec();
