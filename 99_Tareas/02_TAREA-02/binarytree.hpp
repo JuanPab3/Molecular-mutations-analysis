@@ -207,9 +207,9 @@ BSTNode<T>* BST<T>::remove_node(BSTNode<T>* &node, T k) {
   }
   return nullptr;
 }
-//===============|NEW METHODE e|=================================
+//===============|NEW METHOD e|=================================
 template<typename T>
-int node_capacity(BSTNode<T> *node){
+int BST<T>::node_capacity(BSTNode<T> * node){
   int count=0;
   if (node!=nullptr){
     count+=(node->reps)+1;
