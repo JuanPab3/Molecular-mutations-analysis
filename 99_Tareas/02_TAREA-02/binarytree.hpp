@@ -37,7 +37,7 @@ public:
   bool empty() { return root == nullptr; }
   void display();
   int insert(T k) { return insert_node(root, nullptr, k); }
-  int capacity(){return node_capacity(root);}
+  int capacity() {return node_capacity(root);}
 
   BSTNode<T>* find(T k) { return find_node(root, k); }
   BSTNode<T>* remove(T k) { return remove_node(root, k); }
@@ -79,7 +79,7 @@ void BST<T>::display_node(BSTNode<T> *node, int count) {
   if(node != nullptr){
     count++;
     display_node(node->left, count);
-    std::cout << "(" << count-1 << ")(" << node->key <<","<< node->reps << ") ";
+    std::cout << "(" << count-1 << ")(" << node->key <<", reps "<< node->reps << ") ";
     display_node(node->right, count);
   }
 }
@@ -208,8 +208,15 @@ BSTNode<T>* BST<T>::remove_node(BSTNode<T>* &node, T k) {
   return nullptr;
 }
 //===============|NEW METHODE e|=================================
+template<typename T>
 int node_capacity(BSTNode<T> *node){
-
+  int count=0;
+  if (node!=nullptr){
+    count+=(node->reps)+1;
+    count+= node_capacity(node->left);
+    count+= node_capacity(node->right);
+  }
+  return count;
 }
 
 /*--------*/
