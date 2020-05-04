@@ -1,3 +1,5 @@
+// Integrantes: Estefanía Laverde, Juan Luis Ávila, Juan Pablo Sierra
+
 #include <string>
 #include "binarytree.hpp"
 using namespace std;
@@ -17,7 +19,7 @@ int main() {
   my_tree.display();
 
   cout << my_tree.capacity() << endl;
-  
+
   string name = "Dop";
   if(!my_tree.find(name))
     cout << name << " is not in the tree.\n";
@@ -30,7 +32,7 @@ int main() {
   my_tree.display();
 
   cout << my_tree.capacity() << endl;
-  
+
   my_tree.remove("Grumpy");
   my_tree.display();
 
@@ -53,6 +55,6 @@ int main() {
   my_tree.display();
 
   cout << my_tree.capacity() << endl;
-  
+
   return 0;
 }

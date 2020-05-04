@@ -1,3 +1,5 @@
+// Integrantes: Estefanía Laverde, Juan Luis Ávila, Juan Pablo Sierra
+
 #ifndef _BINARYTREE_HPP
 #define _BINARYTREE_HPP
 
