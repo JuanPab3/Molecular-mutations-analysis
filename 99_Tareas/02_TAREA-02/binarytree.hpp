@@ -157,56 +157,77 @@ BSTNode<T>* BST<T>::successor(BSTNode<T> *node) {
 //===============|MODIFIED METHOD c|=============================
 template <typename T>
 BSTNode<T>* BST<T>::remove_node(BSTNode<T>* &node, T k) {
-  BSTNode<T>* n = find_node(node, k);
-  if(n != nullptr){
-    BSTNode<T>* p = n->parent;
-    //Case 1: No children
-    if(n->left == nullptr && n->right == nullptr){
-      std::cout<<"Case1\n";
-      if(p == nullptr){ //if node is root
-	       root = nullptr;
-      }else{
-	       if(n == p->left){p->left = nullptr;} //if n is left child
-	        else{p->right = nullptr;}
-      }
-      delete n;
+    BSTNode<T>* n = find_node(node, k);
+    if (n->reps > 0) {
+      (n->reps) --;
+      return n;
     }
-
-    //Case 2: One child
-    else if(n->left == nullptr || n->right == nullptr){
-      std::cout<<"Case2\n";
-      BSTNode<T>* c;
-      if(n == p->left){ //if n is left child
-	       if(n->left != nullptr){c = n->left;} //if child was left
-
-	       else{
-            c = n->right; //if child was right
-	          if(p != nullptr){p->left = c;}
-          }
-      }else{ //if n is right child
-	       if(n->left != nullptr){c = n->left;} //if child was left
-	       else {//if child was right
-	          c = n->right;
-	          if(p != nullptr) {p->right = c;}
-        }
-      }
-      c->parent = p;
-      delete n;
-    }
-
-    //Case 3: Two children
     else{
-      std::cout<<"Case3\n";
+      if(n != nullptr){
+          BSTNode<T>* p = n->parent;
+          //Case 1: No children
+          if(n->left == nullptr && n->right == nullptr){
+              //
+              std::cout<<"Case1\n";
+              //
+              if(p == nullptr){ //if node is root
+                  root = nullptr;
+              } else{
+                  if(n == p->left) //if n is left child
+                      p->left = nullptr;
+                  else
+                      p->right = nullptr;
+              }
+              delete n;
+          }
 
-      BSTNode<T>* s = successor(n);
-      T new_key = s->key;
-      p = remove_node(s->parent, s->key);
-      n->key = new_key;
-    }
-    return p;
-  }
-  return nullptr;
+          //Case 2: One child
+          else if(n->left == nullptr || n->right == nullptr){
+              //
+              std::cout<<"Case2\n";
+              //
+              BSTNode<T>* c;
+              if(p == nullptr){
+                  if(n->left != nullptr)
+                      c = root = n->left;
+                  else
+                      c = root = n->right;
+              } else{
+                  if(n == p->left){ //if n is left child
+                      if(n->left != nullptr) //if child was left
+                          c = n->left;
+                      else //if child was right
+                          c = n->right;
+                      if(p != nullptr) p->left = c;
+                  } else{ //if n is right child
+                      if(n->left != nullptr) //if child was left
+                          c = n->left;
+                      else //if child was right
+                          c = n->right;
+                      if(p != nullptr) p->right = c;
+                  }
+              }
+              c->parent = p;
+              delete n;
+          }
+
+          //Case 3: Two children
+          else{
+              //
+              std::cout<<"Case3\n";
+              //
+              BSTNode<T>* s = successor(n);
+              T new_key = s->key;
+              p = remove_node(s->parent, s->key);
+              n->key = new_key;
+          }
+
+          return p;
+      }
+      return nullptr;
 }
+}
+
 //===============|NEW METHOD e|=================================
 template<typename T>
 int BST<T>::node_capacity(BSTNode<T> * node){
