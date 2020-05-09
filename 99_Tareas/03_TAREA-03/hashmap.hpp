@@ -130,8 +130,38 @@ void HashMap<VT>::insert(std::string key, VT value) {
 
 /* Métodos a implementar */
 template <typename VT>
-void remove(std::string key) {
+void HashMap<VT>::remove(std::string key) {
+    int index = hash_fun(key);
+    KeyValueNode<VT> *cursor = table[index];
 
+    if (cursor == nullptr ) {
+        throw std::runtime_error("OOOOPS! Al parecer la llave que quiere eliminar, no está en tu hashtable °_° ");
+    } else {
+        KeyValueNode<VT> *precursor = cursor;
+        while (cursor->key != key) {
+            precursor = cursor;
+            cursor = cursor->next;
+        }
+        if (precursor == cursor) {
+            /*Remove al primer elemento en el bucket*/
+            // std::cout << "Remove al primer elemento en el bucket\n";
+            cursor = cursor->next;
+            delete table[index];
+            table[index] = cursor;
+        }else if (cursor->next == nullptr){
+            /*Remove al ultimo elemento en el bucket*/
+            // std::cout << "Remove al ultimo elemento en el bucket\n";
+            precursor->next = nullptr;
+            delete cursor;
+        } else {
+            /*Remove entre dos elementos (no nullptr) del bucket*/
+            // std::cout << "Remove entre dos elementos (no nullptr) del bucket\n";
+            precursor->next = cursor->next;
+            delete cursor;
+        }
+        count--;
+
+    }
 }
 
 template <typename VT>
@@ -151,33 +181,43 @@ void HashMap<VT>::clear() {
 /*===========================| ACCESSOR_METHODS |=============================*/
 /* Métodos a implementar */
 template <typename VT>
-bool contains(std::string key) {
+bool HashMap<VT>::contains(std::string key) {
     int index = hash_fun(key);
-    
-
+    KeyValueNode<VT> *cursor = search_bucket(index, key);
+    if (cursor == nullptr) {
+        return false;
+    } else {
+        return true;
+    }
 }
 
 /* Métodos a implementar */
 template <typename VT>
-VT get(std::string key) {
-
+VT HashMap<VT>::get(std::string key) {
+    int index = hash_fun(key);
+    KeyValueNode<VT> *cursor = search_bucket(index, key);
+    if (cursor == nullptr) {
+        throw std::runtime_error("OOOOPS! Al parecer la llave que buscas, no está en tu hashtable °_° ");
+    } else {
+        return cursor->value;
+    }
 }
 
 
 template <typename VT>
 void HashMap<VT>::display() {
-  std::cout << count << " elements:\n";
-  KeyValueNode<VT> *cursor;
-  for(int i = 0; i < table_size; ++i){
-    cursor = table[i];
-    while(cursor != nullptr){
-      std::cout << "(" << cursor->key
-                << "," << cursor->value
-                << ") ";
-      cursor = cursor->next;
+    std::cout << count << " elements:\n";
+    KeyValueNode<VT> *cursor;
+    for(int i = 0; i < table_size; ++i){
+        cursor = table[i];
+        while(cursor != nullptr){
+            std::cout << "(" << cursor->key
+                    << "," << cursor->value
+                    << ") ";
+            cursor = cursor->next;
+        }
+        std::cout << std::endl;
     }
-    std::cout << std::endl;
-  }
 }
 
 template <typename VT>
