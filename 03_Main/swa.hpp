@@ -27,7 +27,7 @@ private:
 
 
     int max  =  0;  /*Es el numero con el valor más alto dentro de toda la tabla*/
-    int penE = -2,  /*Penalización por Cuadro Vacio Estandar*/
+    int penE = -1,  /*Penalización por Cuadro Vacio Estandar*/
         penD = -3,  /*Penalización por Desigualdad*/
         ganI =  3;  /*Ganancia por Igualdad */
 
@@ -53,7 +53,9 @@ public:
     /*Accessor Methods*/ /*Estas funciones estan para comprobar los resultados*/
     void show_value_box () const;
     void show_string_box () const;
+    int points () const;
     void show () const; /*O(M*N)*/ /*Representa a ScoringMatrix como una matriz*/
+
 
 };
 

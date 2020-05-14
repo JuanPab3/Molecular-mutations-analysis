@@ -8,7 +8,6 @@ ScoringMatrix::ValBox ScoringMatrix::create_val_box(int i, int j){
     return tempvalbox;
 }
 
-
 void ScoringMatrix::max_val (int** matrix, int i, int j, char iChar, char jChar){
     std::stack<int> tempST;
     tempST.push(matrix[i-1][j-1] + s(iChar,jChar));
@@ -44,60 +43,60 @@ int ScoringMatrix::s (char & a,char & b) {
     return tempVal;
 }
 
-
 void ScoringMatrix::valBox_to_string(ScoringMatrix::AlignedCode & alig,  int i, int j){
     // std::cout << "A: " << codeString1 << alig.codeA << '\n';
     // std::cout << "B: " << codeString2 << alig.codeB << '\n'<< '\n';
-    int diagonal = matrix[i-1][j-1],
+    int /*actual = matrix[i][j],*/
+        diagonal = matrix[i-1][j-1],
         arriba = matrix[i][j-1],
-        lado = matrix[i-1][j],
-        actual = matrix[i][j];
+        lado = matrix[i-1][j];
 
-    std::cout << "Actual:   " << actual << '\n';
-    std::cout << "Diagonal: " << diagonal << '\n';
-    std::cout << "Arriba:   " << arriba << '\n';
-    std::cout << "Al Lado:  " << lado << '\n';
+    // std::cout << "Actual:   " << actual << '\n';
+    // std::cout << "Diagonal: " << diagonal << '\n';
+    // std::cout << "Arriba:   " << arriba << '\n';
+    // std::cout << "Al Lado:  " << lado << '\n';
 
-    if (diagonal == 0 or arriba == 0 or lado == 0) {
-        std::cout << "BASE" << '\n';
-        std::cout << j <<": " << codeString1[j-1] << '\n';
-        std::cout << i <<": " << codeString2[i-1] << '\n';
-        std::cout << j-1 <<": " << codeString1[j-2] << '\n';
-        std::cout << i-1 <<": " << codeString2[i-2] << '\n'<< '\n';
+    if (diagonal != 1 and (arriba == 0 or lado == 0)) {
+        // std::cout << "BASE" << '\n';
+        // std::cout << j <<": " << codeString1[j-1] << '\n';
+        // std::cout << i <<": " << codeString2[i-1] << '\n';
+        // std::cout << j-1 <<": " << codeString1[j-2] << '\n';
+        // std::cout << i-1 <<": " << codeString2[i-2] << '\n'<< '\n';
         if (codeString1[j-1] == codeString2[i-1]) {
             alig.codeA = codeString1[j-1] + alig.codeA;
             alig.codeB = codeString2[i-1] + alig.codeB;
         } else {
-            alig.codeB = "@" + alig.codeB;
+
+            alig.codeB = codeString1[j-1] + alig.codeB;
             alig.codeA = "@" + alig.codeA;
         }
     } else {
         if (diagonal >= arriba and diagonal >= lado ){
-            std::cout << "DIAGONAL" << '\n';
-            std::cout << j <<": " << codeString1[j-1] << '\n';
-            std::cout << i <<": " << codeString2[i-1] << '\n';
-            std::cout << j-1 <<": " << codeString1[j-2] << '\n';
-            std::cout << i-1 <<": " << codeString2[i-2] << '\n'<< '\n';
+            // std::cout << "DIAGONAL" << '\n';
+            // std::cout << j <<": " << codeString1[j-1] << '\n';
+            // std::cout << i <<": " << codeString2[i-1] << '\n';
+            // std::cout << j-1 <<": " << codeString1[j-2] << '\n';
+            // std::cout << i-1 <<": " << codeString2[i-2] << '\n'<< '\n';
             alig.codeA = codeString1[j-1] + alig.codeA;
             alig.codeB = codeString2[i-1] + alig.codeB;
 
             valBox_to_string(alig,i-1,j-1);
         } else if (lado > diagonal and lado > arriba and codeString1[j-1] != codeString2[i-1]) {
-            std::cout << "AL  LADO" << '\n';
-            std::cout << j <<": " << codeString1[j-1] << '\n';
-            std::cout << i <<": " << codeString2[i-1] << '\n';
-            std::cout << j-1 <<": " << codeString1[j-2] << '\n';
-            std::cout << i-1 <<": " << codeString2[i-2] << '\n'<< '\n';
+            // std::cout << "AL  LADO" << '\n';
+            // std::cout << j <<": " << codeString1[j-1] << '\n';
+            // std::cout << i <<": " << codeString2[i-1] << '\n';
+            // std::cout << j-1 <<": " << codeString1[j-2] << '\n';
+            // std::cout << i-1 <<": " << codeString2[i-2] << '\n'<< '\n';
             alig.codeA = "@"+ alig.codeA;
             alig.codeB = codeString2[i-1] + alig.codeB;
 
             valBox_to_string(alig,i-1,j);
         } else if (arriba > diagonal and arriba > lado and codeString1[j-1] != codeString2[i-1]) {
-            std::cout << "ARRIBA" << '\n';
-            std::cout << j <<": " << codeString1[j-1] << '\n';
-            std::cout << i <<": " << codeString2[i-1] << '\n';
-            std::cout << j-1 <<": " << codeString1[j-2] << '\n';
-            std::cout << i-1 <<": " << codeString2[i-2] << '\n'<< '\n';
+            // std::cout << "ARRIBA" << '\n';
+            // std::cout << j <<": " << codeString1[j-1] << '\n';
+            // std::cout << i <<": " << codeString2[i-1] << '\n';
+            // std::cout << j-1 <<": " << codeString1[j-2] << '\n';
+            // std::cout << i-1 <<": " << codeString2[i-2] << '\n'<< '\n';
             alig.codeA = codeString1[j-1] + alig.codeA;
             alig.codeB = "@" + alig.codeB;
 
@@ -186,6 +185,27 @@ void ScoringMatrix::show_string_box () const {
         tempBox.pop();
     }
 
+}
+
+int ScoringMatrix::points () const {
+    std::stack<AlignedCode> temp_stack(StringBox);
+    bool in_line = false;
+    int points = 0;
+    while (!temp_stack.empty()) {
+        for (char c : temp_stack.top().codeB){
+            if (c != '@') {
+                points += ganI;
+                in_line = false;
+            } else if ( in_line == false) {
+                points += penD;
+                in_line = true;
+            } else {
+                points += penE;
+            }
+        }
+        temp_stack.pop();
+    }
+    return points;
 }
 
 void ScoringMatrix::show () const {
