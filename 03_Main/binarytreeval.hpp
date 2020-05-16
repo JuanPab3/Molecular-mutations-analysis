@@ -15,49 +15,57 @@ struct BSTNode {
 
 class BST {
 private:
-  BSTNode *root;
+    int sz = 0;
+    BSTNode *root;
 
-  void insert_node(BSTNode* &node, BSTNode *p, float k, std::string v);
-  void display_node(BSTNode *node, int count);
-  void destroy_recursive(BSTNode* node);
-  BSTNode* find_node(BSTNode* node, float k);
-  BSTNode* minimum(BSTNode *node);
-  BSTNode* maximum(BSTNode *node);
-  BSTNode* predecessor(BSTNode *node);
-  BSTNode* successor(BSTNode *node);
-  BSTNode* remove_node(BSTNode* &node, float k);
+    void insert_node(BSTNode* &node, BSTNode *p, float k, std::string v);
+    void display_node(BSTNode *node, int count);
+    void destroy_recursive(BSTNode* node);
+    BSTNode* find_node(BSTNode* node, float k);
+    BSTNode* minimum(BSTNode *node);
+    BSTNode* maximum(BSTNode *node);
+    BSTNode* predecessor(BSTNode *node);
+    BSTNode* successor(BSTNode *node);
 
 public:
-  BST() { root = nullptr; }
-  ~BST() { destroy_recursive(root); }
+    BST() { root = nullptr; }
+    ~BST() { destroy_recursive(root); }
 
-  bool empty() { return root == nullptr; }
-  void clear() { destroy_recursive(root); }
-  /**/
-  void insert(float k, std::string v) { insert_node(root, nullptr, k, v); }
-  /**/
-  void display();
-  BSTNode* find(float k) { return find_node(root, k); }
-  BSTNode* remove(float k) { return remove_node(root, k); }
-  /**/
-  std::vector<std::string> get(float k);
-  /**/
+    bool empty() { return root == nullptr; }
+    void clear() { destroy_recursive(root); sz = 0;}
+    /**/
+    void insert(float k, std::string v) { insert_node(root, nullptr, k, v); }
+    /**/
+    void display();
+    int size() const;
+    BSTNode* find(float k) { return find_node(root, k); }
+    /**/
+    std::vector<std::string> get(float k);
+    /**/
 };
 
 
 /**/
+int BST::size() const {
+    return sz;
+}
+
+
 void BST::insert_node(BSTNode* &node, BSTNode *p,float k, std::string v) {
     if(node == nullptr){
         std::vector<std::string> new_vec;
+        new_vec.push_back(v);
         node = new BSTNode;
         node->key = k;
         node->value = new_vec;
         node->left = nullptr;
         node->right = nullptr;
         node->parent = p;
+        sz++;
     } else {
         if(k == node->key) {
             node->value.push_back(v);
+            sz++;
         } else {
             // std::cout << "INSERT IS WORKING \n";
             if (k < node->key) {
@@ -86,10 +94,10 @@ void BST::display_node(BSTNode *node, int count) {
    if(node != nullptr){
     count++;
     display_node(node->left, count);
-    std::cout << count-1 << ":" << node->key << "%\n";
+    std::cout << "\n===| " << count-1 << ":" << node->key << "% |===\n";
     int s = node->value.size();
     for (int i = 0; i < s; i++) {
-        std::cout << "Código #" << i+1 << "\n";
+        std::cout << "\nCódigo #" << i+1 << "\n";
         std::cout << node->value[i] << "\n";
     }
     display_node(node->right, count);
@@ -155,65 +163,7 @@ BSTNode* BST::successor(BSTNode *node) {
   return p;
 }
 
-// BSTNode* BST::remove_node(BSTNode* &node, float k) {
-//   BSTNode* n = find_node(node, k);
-//   if(n != nullptr){
-//     BSTNode* p = n->parent;
-//
-//     //Case 1: No children
-//     if(n->left == nullptr && n->right == nullptr){
-//       //
-//       std::cout<<"Case1\n";
-//       //
-//       if(p == nullptr){ //if node is root
-// 	root = nullptr;
-//       }else{
-// 	if(n == p->left) //if n is left child
-// 	  p->left = nullptr;
-// 	else
-// 	  p->right = nullptr;
-//       }
-//       delete n;
-//     }
-//
-//     //Case 2: One child
-//     else if(n->left == nullptr || n->right == nullptr){
-//       //
-//       std::cout<<"Case2\n";
-//       //
-//       BSTNode* c;
-//       if(n == p->left){ //if n is left child
-// 	if(n->left != nullptr) //if child was left
-// 	  c = n->left;
-// 	else //if child was right
-// 	  c = n->right;
-// 	if(p != nullptr) p->left = c;
-//       }else{ //if n is right child
-// 	if(n->left != nullptr) //if child was left
-// 	  c = n->left;
-// 	else //if child was right
-// 	  c = n->right;
-// 	if(p != nullptr) p->right = c;
-//       }
-//       c->parent = p;
-//       delete n;
-//     }
-//
-//     //Case 3: Two children
-//     else{
-//       //
-//       std::cout<<"Case3\n";
-//       //
-//       BSTNode* s = successor(n);
-//       float new_key = s->key;
-//       p = remove_node(s->parent, s->key);
-//       n->key = new_key;
-//     }
-//
-//     return p;
-//   }
-//   return nullptr;
-// }
+
 
 
 #endif
