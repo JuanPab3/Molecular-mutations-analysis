@@ -21,6 +21,8 @@ class Position_LL{
     void clear();
     void push_back(int pos);
     bool find(int pos);
+    void display();
+    int size() const;
 
 };
 
@@ -49,13 +51,13 @@ public:
     void push_back(dataType k_mer, int position, int key);
     void display_ll();
     Info<dataType>* find(int key);
-    Info<dataType>* pop_back();
+    //Info<dataType>* pop_back();
 
     bool empty() const;
-
+    Info<dataType>** get_pointer_to_head(){return &head;};
     int size() const;
 
-    void MergeSort(Info<dataType>* head);
+    void MergeSort(Info<dataType>** head);
     void IterSplit(Info<dataType>* head, Info<dataType>** front, Info<dataType>** back);
     Info<dataType>* Merge(Info<dataType>* head_list1, Info<dataType>* head_list2);
   };
@@ -92,9 +94,11 @@ void add_k_mers(string cadena, LL1<T> list){
     k_mer+=a;
     k_mer+=b;
     k_mer+=c;
-
     int key = give_key(k_mer);
+    std::cout << k_mer << " , " << key << '\n';
+    //list.empty();
     list.push_back(k_mer, position, key);
+    list.size();
     position++;
     }
   }

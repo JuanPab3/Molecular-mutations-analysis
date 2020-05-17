@@ -13,12 +13,11 @@ Position_LL::~Position_LL(){
 
 void Position_LL::clear() {
     Node *temp;
-    while (head->next != nullptr) {
+    while (head != nullptr) {
         temp = head->next;
         delete head;
         head = temp;
     }
-    delete head;
 }
 
 void Position_LL::push_back(int pos){
@@ -52,6 +51,20 @@ bool Position_LL::find(int pos){
   }
   return false;
 }
+
+void Position_LL::display(){
+    Node*curr = head;
+    std::cout << "HEAD(" << size() << ") -> ";
+    while (curr != nullptr) {
+        std::cout << curr->pos<< " -> ";
+        curr = curr->next;
+    }
+    std::cout << "END \n";
+}
+
+int Position_LL::size() const{
+  return count;
+}
 //===============LL: PUBLIC METHODS ===================
 
 //Constructor
@@ -71,8 +84,14 @@ LL1<dataType>::~LL1(){
 
 template<typename dataType>
 void LL1<dataType>::clear() {
-    while (count>0) {
-        pop_back();
+    //while (count>0) {
+    //    pop_back();
+    //}
+    Info<dataType>* temp;
+    while (head != nullptr){
+      temp = head->next;
+      delete head;
+      head = temp;
     }
 }
 
@@ -92,7 +111,8 @@ void LL1<dataType>::push_back(dataType k_mer, int position, int key){
     else{ //Si hay algo en la lista
         if (find(key) != nullptr){ //Si el elemento está repetido
           Info<dataType>* element = find(key);
-          element->position.push_back(position);
+          std::cout << element->key << '\n';
+          //(element->position).push_back(position);
         }
         else{
           Info<dataType>*temp=head;
@@ -101,14 +121,15 @@ void LL1<dataType>::push_back(dataType k_mer, int position, int key){
           }
           Info<dataType>*new_info= new Info<dataType>;
           new_info->k_mer = k_mer;
-          Position_LL pos;
-          pos.push_back(position);
-          new_info-> position = pos;
+          Position_LL posi;
+          posi.push_back(position);
+          new_info-> position = posi;
           new_info-> key = key;
           new_info->next=nullptr;
           temp->next=new_info;
           count++;
       }
+
     }
 }
 
@@ -117,7 +138,10 @@ void LL1<dataType>::display_ll(){
     Info<dataType>*curr = head;
     std::cout << "HEAD(" << size() << ") -> ";
     while (curr != nullptr) {
-        std::cout << curr->data << " -> ";
+        std::cout << "K-mer:"<< curr->k_mer << " , ";
+        std::cout << "Position:" << curr->position.size() << " , ";
+        //curr->position.display();
+        std::cout << ", Key:"<< curr->key << " -> ";
         curr = curr->next;
     }
     std::cout << "END \n";
@@ -137,52 +161,56 @@ template<typename dataType>
 Info<dataType>* LL1<dataType>::find(int key){
   Info<dataType>* it= head;
   while (it!=nullptr){
-    if (it->key==key)
+    if (it->key==key){
       return it;
+    }
     it = it->next;
   }
+
   return nullptr;
 }
 
-template<typename dataType>
-Info<dataType>* LL1<dataType>::pop_back(){
-    if (head==nullptr){
-        return nullptr;
-    }
-    Info<dataType>*temp=head, *temp2=head, *retorno;
-
-    while (temp->next!=nullptr){
-        temp2=temp;
-        temp=temp->next;
-    }
-    //Cuando llegue al último elemento
-    retorno=temp;
-    delete temp;
-    temp2->next=nullptr;
-    count--;
-    return retorno;
-}
+//template<typename dataType>
+//Info<dataType>* LL1<dataType>::pop_back(){
+//    if (head==nullptr){
+//        return nullptr;
+//    }
+//    Info<dataType>*temp=head, *temp2=head, *retorno;
+//
+//    while (temp->next!=nullptr){
+//        temp2=temp;
+//        temp=temp->next;
+//    }
+//    //Cuando llegue al último elemento
+//    retorno=temp;
+//    delete temp;
+//    temp2->next=nullptr;
+//    count--;
+//    return retorno;
+//}
 
 template <typename dataType>
-void LL1<dataType>::MergeSort(Info<dataType>* head){
-  Node* head_list1;
-  Node* head_list2;
+void LL1<dataType>::MergeSort(Info<dataType>** pointer_to_head){
+  Info<dataType>* head = *pointer_to_head;
+  Info<dataType>* head_list1;
+  Info<dataType>* head_list2;
 
-  if (count > 2)
+  if ((head == nullptr) || (head->next == nullptr))
     return;
 
   IterSplit(head,&head_list1, &head_list2);
 
   MergeSort(&head_list1);
+  std::cout << "Llegué" << '\n';
   MergeSort(&head_list2);
 
-  *head = Merge(head_list1, head_list2);
+  *pointer_to_head = Merge(head_list1, head_list2);
 }
 
 template <typename dataType>
 void LL1<dataType>::IterSplit(Info<dataType>* head, Info<dataType>** front, Info<dataType>** back){
-  Node* fast;
-  Node* slow;
+  Info<dataType>* fast;
+  Info<dataType>* slow;
   slow = head;
   fast = head->next;
 
@@ -192,10 +220,9 @@ void LL1<dataType>::IterSplit(Info<dataType>* head, Info<dataType>** front, Info
       slow = slow->next;
       fast = fast->next;
     }
-    slow = slow->next;
     *front = head;
-    *back = slow;
-    slow= nullptr;
+    *back = slow->next;
+    slow->next = nullptr;
   }
 }
 
@@ -207,7 +234,7 @@ Info<dataType>* LL1<dataType>::Merge(Info<dataType>* head_list1, Info<dataType>*
     else if (head_list2 == nullptr)
         return (head_list1);
 
-  if (head_list1->data <= head_list2->data) {
+  if (head_list1->key <= head_list2->key) {
         result = head_list1;
         result->next = Merge(head_list1->next, head_list2);
     }
