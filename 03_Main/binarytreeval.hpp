@@ -79,10 +79,10 @@ void BST::insert_node(BSTNode* &node, BSTNode *p,float k, std::string v) {
 
 std::vector<std::string> BST::get(float k) {
     if (root == nullptr )
-        throw std::runtime_error("OOOOPS! Al parecer tu arbol está vasio °_° ");
+        throw std::runtime_error("OOOOPS! Al parecer tu arbol está vasio \|°~°|/ ");
     BSTNode* temp = find(k);
     if (temp == nullptr) {
-        throw std::runtime_error("OOOOPS! Al parecer la llave que buscas, no está en tu arbol °_° ");
+        throw std::runtime_error("OOOOPS! Al parecer la llave que buscas, no está en tu arbol \|°~°|/ ");
     } else {
         return temp->value;
     }

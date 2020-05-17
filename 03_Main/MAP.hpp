@@ -207,7 +207,7 @@ template<typename dataType>
 dataType LL<dataType>::peek_back() const{
     dataType valor_retorno;
     if(head==nullptr){
-        std::cout << "ERROR: trying peek_back() on an empty list\n";
+        std::cout << "ERROR: trying peek_back() on an empty list \|°~°|/\n";
         std::exit(EXIT_FAILURE);
     }
     if(head->next==nullptr){
@@ -226,7 +226,7 @@ dataType LL<dataType>::peek_back() const{
 template<typename dataType>
 dataType LL<dataType>::peek_front() const{
     if(head==nullptr){
-        std::cout << "ERROR: trying peek_front() on an empty list\n";
+        std::cout << "ERROR: trying peek_front() on an empty list \|°~°|/\n";
         std::exit(EXIT_FAILURE);
     }
     return head->data;

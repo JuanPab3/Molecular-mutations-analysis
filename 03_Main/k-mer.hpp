@@ -80,7 +80,7 @@ int give_key(string k_mer){
     else if (*it == 'T'){
         key += pow(4,exponente)*3;}
     else{
-      std::cout << "ERROR: Invalid character \n";
+      std::cout << "ERROR: Invalid character \|°~°|/\n";
       std::exit(EXIT_FAILURE);
     }
     exponente--;
@@ -309,7 +309,7 @@ void add_k_mers(string cadena, LL1<T> list){
   template<typename dataType>
   Info<dataType> LL1<dataType>::pop(){
     if (head==nullptr){
-      std::cout << "ERROR: List is empty\n";
+      std::cout << "ERROR: List is empty \|°~°|/\n";
       std::exit(EXIT_FAILURE);
       }
     else{
