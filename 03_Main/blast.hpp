@@ -33,6 +33,7 @@ public:
     /*Constructors&Destructors*/
     Blast(std::stack<std::string> database, std::string query);
 
+    void display();
 };
 
 
@@ -48,8 +49,11 @@ Blast::Blast(std::stack<std::string> database, std::string query) {
     /*Analizar todas las lineas geneticas dentro de la base de datos*/
     while (!database.empty()) {
 
+        float total_points = 0;
+
         /*Tomar una cadena para empezar su analisis*/
         std::string element = database.top();
+        float max_size = element.size()*3;
         database.pop();
 
         /*Comparar cada permutacion con el Query para así clasificar las que superan o igualan el HSSP*/
@@ -82,14 +86,29 @@ Blast::Blast(std::stack<std::string> database, std::string query) {
 
             /*Inicio de comparacion entre llaves del Query con las llaves de database*/
             for (int i = 0; i < permutaciones_keys.size();i++){
-                 bstNode<int,int> temp_treeP = comparison_Tree.find(permutaciones_keys[i]);
+
+                /*Buscar coincidencias entre las permutaciones validas (entre AGTC) con los k_mers*/
+                bstNode<int,int> temp_treeP = comparison_Tree.find(permutaciones_keys[i]);
+
+
                 if (temp_treeP != nullptr) {
                     while (!temp_treeP->data.empty()) {
-                        temp_treeP->data.top();
-                        ScoringMatrix mat(database,query)
+                        int value = temp_treeP->data.top();
+                        temp_treeP->data.pop();
+
+                        /*Watermelon algorithm applied*/
+                        ScoringMatrix mat(key_to_string(value),permutaciones_keys[i]);
+                        total_points += mat.points();
                     }
                 }
             }
+            float porcent = (total_points * 100.0)/max_size;
+            sistema_d_clasificasion.insert(porcent, element);
         }
     }
+}
+
+
+void Blast::display() {
+    sistema_d_clasificasion.full_display()
 }
