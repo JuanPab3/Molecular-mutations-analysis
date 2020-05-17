@@ -1,9 +1,11 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <cmath>
 #include "binarytreeval.hpp"
 #include "BST_arr.hpp"
 #include "swa.hpp"
+#include "k-mer.cpp"
 
 using namespace std;
 
