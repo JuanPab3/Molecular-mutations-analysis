@@ -5,27 +5,27 @@
 #include<stack>
 using namespace std;
 
-struct Node{
-  int pos;
-  Node *next;
-};
-
-class Position_LL{
-  private:
-    Node *head;
-    int count;
-
-  public:
-    Position_LL();
-    ~Position_LL();
-
-    void clear();
-    void push_back(int pos);
-    bool find(int pos);
-    void display();
-    int size() const;
-
-};
+//struct Node{
+//  int pos;
+//  Node *next;
+//};
+//
+//class Position_LL{
+//  private:
+//    Node *head;
+//    int count;
+//
+//  public:
+//    Position_LL();
+//    ~Position_LL();
+//
+//    void clear();
+//    void push_back(int pos);
+//    bool find(int pos);
+//    void display();
+//    int size() const;
+//
+//};
 
 //Linked list that saves the k-mer, its postition and its key as a numerical
 //representation
@@ -109,72 +109,72 @@ void add_k_mers(string cadena, LL1<T> list){
   }
 
   //===============Position_LL:PUBLIC METHODS ===================
-  Position_LL::Position_LL(){
-      head=nullptr;
-      count=0;
-  }
+  //Position_LL::Position_LL(){
+  //    head=nullptr;
+  //    count=0;
+  //}
 
-  Position_LL::~Position_LL(){
-      clear();
-      head=nullptr;
-      count=0;
-  }
+  //Position_LL::~Position_LL(){
+  //    clear();
+  //    head=nullptr;
+  //    count=0;
+  //}
 
-  void Position_LL::clear() {
-      Node *temp;
-      while (head != nullptr) {
-          temp = head->next;
-          delete head;
-          head = temp;
-      }
-  }
+  //void Position_LL::clear() {
+  //    Node *temp;
+  //    while (head != nullptr) {
+  //        temp = head->next;
+  //        delete head;
+  //        head = temp;
+  //    }
+  //}
 
-  void Position_LL::push_back(int pos){
-      if (count==0){
-          Node *temp = new Node;
-          temp->pos = pos;
-          temp->next = nullptr;
-          head = temp;
-          count++;
-      }
-      else{ //Si hay algo en la lista
-          Node *temp=head;
-          while (temp->next!=nullptr){
-              temp=temp->next;
-          }
-          //Cuando llegue al útimo elemento
-          Node*new_node= new Node;
-          new_node->pos=pos;
-          new_node->next=nullptr;
-          temp->next=new_node;
-          count++;
-      }
-  }
+  //void Position_LL::push_back(int pos){
+  //    if (count==0){
+  //        Node *temp = new Node;
+  //        temp->pos = pos;
+  //        temp->next = nullptr;
+  //        head = temp;
+  //        count++;
+  //    }
+  //    else{ //Si hay algo en la lista
+  //        Node *temp=head;
+  //        while (temp->next!=nullptr){
+  //            temp=temp->next;
+  //        }
+  //        //Cuando llegue al útimo elemento
+  //        Node*new_node= new Node;
+  //        new_node->pos=pos;
+  //        new_node->next=nullptr;
+  //        temp->next=new_node;
+  //        count++;
+  //    }
+  //}
 
-  bool Position_LL::find(int pos){
-    Node* temp = head;
-    while (temp != nullptr){
-      if (temp->pos == pos)
-        return true;
-      temp = temp->next;
-    }
-    return false;
-  }
+  //bool Position_LL::find(int pos){
+  //  Node* temp = head;
+  //  while (temp != nullptr){
+  //    if (temp->pos == pos)
+  //      return true;
+  //    temp = temp->next;
+  //  }
+  //  return false;
+  //}
 
-  void Position_LL::display(){
-      Node*curr = head;
-      std::cout << "HEAD(" << size() << ") -> ";
-      while (curr != nullptr) {
-          std::cout << curr->pos<< " -> ";
-          curr = curr->next;
-      }
-      std::cout << "END \n";
-  }
+  //void Position_LL::display(){
+  //    Node*curr = head;
+  //    std::cout << "HEAD(" << size() << ") -> ";
+  //    while (curr != nullptr) {
+  //        std::cout << curr->pos<< " -> ";
+  //        curr = curr->next;
+  //    }
+  //    std::cout << "END \n";
+  //}
 
-  int Position_LL::size() const{
-    return count;
-  }
-  //===============LL: PUBLIC METHODS ===================
+  //int Position_LL::size() const{
+  //  return count;
+  //}
+  ////===============LL: PUBLIC METHODS ===================
 
   //Constructor
   template<typename dataType>
@@ -293,24 +293,7 @@ void add_k_mers(string cadena, LL1<T> list){
       return temp;
     }
   }
-  //template<typename dataType>
-  //Info<dataType>* LL1<dataType>::pop_back(){
-  //    if (head==nullptr){
-  //        return nullptr;
-  //    }
-  //    Info<dataType>*temp=head, *temp2=head, *retorno;
-  //
-  //    while (temp->next!=nullptr){
-  //        temp2=temp;
-  //        temp=temp->next;
-  //    }
-  //    //Cuando llegue al último elemento
-  //    retorno=temp;
-  //    delete temp;
-  //    temp2->next=nullptr;
-  //    count--;
-  //    return retorno;
-  //}
+
 
   template <typename dataType>
   void LL1<dataType>::MergeSort(Info<dataType>** pointer_to_head){
