@@ -18,7 +18,6 @@ private:
 public:
     /*Constructors&Destructors*/
     Forest();
-    // ~Forest();
 
     /*Accessor Methods*/
     std::vector<std::string> find_porcent(float porcent) const;
@@ -43,7 +42,7 @@ BST Forest::operator[](int index) {
     }
     return *forest;
 }
-/*======================CONSTRUCTORS_&_DESTRUCTOR======================*/
+/*=============================CONSTRUCTORS=============================*/
 
 Forest::Forest() {
     for (int i = 0; i<10;i++){
@@ -52,15 +51,6 @@ Forest::Forest() {
     }
 }
 
-// Forest::~Forest() {
-//     for (int i = 0; i<10;i++){
-//         std::cout << forest[i].size() << " DESTROY IS WORKING" << '\n';
-//         (*forest).clear();
-//         forest++;
-//     }
-//     sz = 0;
-//     delete[] forest;
-// }
 /*==========================ACCESSOR_METHODS===========================*/
 
 std::vector<std::string> Forest::find_porcent(float  porcent) const {
