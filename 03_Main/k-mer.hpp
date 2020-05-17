@@ -88,6 +88,31 @@ int give_key(string k_mer){
     return key;
   }
 
+std::string key_to_string(int key){
+  int div = key;
+  stack<int> potencias;
+  string result;
+  char ch;
+  while (div>4){
+    potencias.push(div%4);
+    div = div/4;
+  }
+  potencias.push(div);
+  while (!potencias.empty()){
+      if (potencias.top() == 0)
+        ch = 'A';
+      else if (potencias.top() == 1)
+        ch = 'C';
+      else if (potencias.top() == 2)
+        ch = 'G';
+      else if (potencias.top() == 3)
+        ch = 'T';
+      result += ch;
+      potencias.pop();
+  }
+  return result;
+}
+
 template <typename T>
 void add_k_mers(string cadena, LL1<T> list){
   int position = 0;
