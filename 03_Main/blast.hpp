@@ -48,9 +48,12 @@ public:
 
 Blast::Blast(std::stack<std::string> database, std::string query) {
     /*Analizar todas las lineas geneticas dentro de la base de datos*/
+    database.pop();
     while (!database.empty()) {
 
-        float total_points = 0;
+        ScoringMatrix f_mat(database.top(),query);
+        float total_points = f_mat.points();
+
 
         /*Tomar una cadena para empezar su analisis*/
         std::string element = database.top();
@@ -96,14 +99,13 @@ Blast::Blast(std::stack<std::string> database, std::string query) {
             /*Inicio de comparacion entre llaves del Query con las llaves de database*/
             int sz2 = permutaciones_keys.size();
 
-            std::cout << "sz2: " << sz2 << "\n";
+            // std::cout << "sz2: " << sz2 << "\n";
 
             for (int i = 0; i < sz2;i++){
 
                 /*Buscar coincidencias entre las permutaciones validas (entre AGTC) con los k_mers*/
                 bstNode<int,int> *temp_treeP = comparison_Tree.find(permutaciones_keys[i]);
 
-                if (temp_treeP == nullptr) std::cout<< "FUUUCK!\n";
                 if (temp_treeP != nullptr) {
                     while (!temp_treeP->data.empty()) {
                         int value = temp_treeP->data.top();
