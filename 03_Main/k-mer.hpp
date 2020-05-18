@@ -350,8 +350,9 @@ void add_k_mers(string cadena, LL1<T> &list){
       Info<dataType>* temp = head;
       Info<dataType> it = *temp;
       head = head->next;
-      count -= temp->size;
+      //count -= temp->size;
       delete temp;
+      count--;
       return it;
 
     }
