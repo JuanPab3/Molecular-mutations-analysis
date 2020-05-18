@@ -36,7 +36,7 @@ public:
 };
 
 BST Forest::operator[](int index) {
-    if (index < 0 or index >= 10) { throw std::runtime_error("OOOOPS! El valor ingresado no es valido \|°~°|/ "); }
+    if (index < 0 or index >= 10) { throw std::runtime_error("OOOOPS! El valor ingresado no es valido °~° "); }
     for (int i = 0; i < index;i++){
         forest++;
     }

@@ -410,7 +410,7 @@ bstNode<keyType,dataType>* Map<keyType,dataType>::remove_node(bstNode<keyType,da
 template<typename keyType, typename dataType>
 std::stack<dataType> Map<keyType, dataType>::get(keyType key){
   if(find(key)==nullptr){
-    std::cout << "ERROR: Key not in Map \n";
+    std::cout << "ERROR: Key not in Map °~°\n";
     std::exit(EXIT_FAILURE);
   }
   return find(key)->data;

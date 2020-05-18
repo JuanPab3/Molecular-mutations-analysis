@@ -5,7 +5,6 @@
 #include "BST_arr.hpp"
 #include "k-mer.hpp"
 #include <iostream>
-#include <fstream>
 #include "swa.hpp"
 #include "MAP.hpp"
 #include <string>
@@ -25,7 +24,7 @@ private:
 
     int HSSP = 3;
 
-    std::vector<std::strings> permutaciones = permut("AGCT");
+    std::vector<std::string> permutaciones = {"ACT","AGT","GTA","GAC"}/*permut("AGCT")*/;
     std::vector<int> permutaciones_keys;
     Forest sistema_d_clasificasion;
 
@@ -33,7 +32,7 @@ public:
     /*Constructors&Destructors*/
     Blast(std::stack<std::string> database, std::string query);
 
-    void display();
+    void display_one(int & num) const;
 };
 
 
@@ -45,7 +44,6 @@ public:
 /*============================================================================*/
 
 Blast::Blast(std::stack<std::string> database, std::string query) {
-
     /*Analizar todas las lineas geneticas dentro de la base de datos*/
     while (!database.empty()) {
 
@@ -57,7 +55,8 @@ Blast::Blast(std::stack<std::string> database, std::string query) {
         database.pop();
 
         /*Comparar cada permutacion con el Query para así clasificar las que superan o igualan el HSSP*/
-        for (int i = 0; i < permutaciones.size(); i++){
+        int sz1 = permutaciones.size();
+        for (int i = 0; i < sz1; i++){
             ScoringMatrix temp_mat(permutaciones[i],query);
             if (temp_mat.points() >= HSSP) {
                 permutaciones_keys.push_back(give_key(element));
@@ -70,25 +69,31 @@ Blast::Blast(std::stack<std::string> database, std::string query) {
         Modifica LL1<std::string> k_mers para que contenga unas llaves que representan
         los kmers codificados junto con las posiciones donde estos se encuentran.
         */
-        add_k_mers(database,k_mers);
+        std::cout << "element: " << element << '\n';
+        std::cout << "k_mers size: " << k_mers.size() << '\n';
+        // std::cout << "WORKING: " << /*key_to_string(value)*/"LOL" << '\n';
+        add_k_mers(element,k_mers);
 
+        // k_mers.display_ll();
         /*Creacion de arbol de comparacion*/
-        MAP<int,int> comparison_Tree;
+        Map<int,int> comparison_Tree;
         while (!k_mers.empty()) {
 
-            Info temp = k_mers.pop(); /*Un elemento descrito en k_mers.hpp*/
+            Info<std::string> temp = k_mers.pop(); /*Un elemento descrito en k_mers.hpp*/
 
-            while (!temp->position.empty()) {
+            while (!temp.position.empty()) {
                 /*Agregando al arbol de comparacion cada elemento valido con su respectiva posicion individualmente*/
-                comparison_Tree.push_back(temp->key,temp->position.top());
-                temp->position.pop();
+                comparison_Tree.insert(temp.key,temp.position.top());
+                temp.position.pop();
             }
 
             /*Inicio de comparacion entre llaves del Query con las llaves de database*/
-            for (int i = 0; i < permutaciones_keys.size();i++){
+            int sz2 = permutaciones_keys.size();
+
+            for (int i = 0; i < sz2;i++){
 
                 /*Buscar coincidencias entre las permutaciones validas (entre AGTC) con los k_mers*/
-                bstNode<int,int> temp_treeP = comparison_Tree.find(permutaciones_keys[i]);
+                bstNode<int,int> *temp_treeP = comparison_Tree.find(permutaciones_keys[i]);
 
 
                 if (temp_treeP != nullptr) {
@@ -97,7 +102,11 @@ Blast::Blast(std::stack<std::string> database, std::string query) {
                         temp_treeP->data.pop();
 
                         /*Watermelon algorithm applied*/
-                        ScoringMatrix mat(key_to_string(value),permutaciones_keys[i]);
+                        int val = permutaciones_keys[i];
+
+
+                        std::string pki = key_to_string(val);
+                        ScoringMatrix mat(key_to_string(value),pki);
                         total_points += mat.points();
                     }
                 }
@@ -109,6 +118,6 @@ Blast::Blast(std::stack<std::string> database, std::string query) {
 }
 
 
-void Blast::display() {
-    sistema_d_clasificasion.full_display()
+void Blast::display_one(int & num) const {
+    sistema_d_clasificasion.tree_display(num);
 }

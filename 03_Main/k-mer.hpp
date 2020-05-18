@@ -3,6 +3,7 @@
 
 #include<iostream>
 #include<stack>
+#include<cmath>
 using namespace std;
 
 //struct Node{
@@ -80,7 +81,7 @@ int give_key(string k_mer){
     else if (*it == 'T'){
         key += pow(4,exponente)*3;}
     else{
-      std::cout << "ERROR: Invalid character \|°~°|/\n";
+      std::cout << "ERROR: Invalid character °~°\n";
       std::exit(EXIT_FAILURE);
     }
     exponente--;
@@ -125,7 +126,7 @@ void add_k_mers(string cadena, LL1<T> list){
     k_mer+=b;
     k_mer+=c;
     int key = give_key(k_mer);
-    std::cout << k_mer << " , " << key << '\n';
+    // std::cout << k_mer << " , " << key << '\n';
     //list.empty();
     list.push_back(k_mer, position, key);
     list.size();
@@ -309,13 +310,14 @@ void add_k_mers(string cadena, LL1<T> list){
   template<typename dataType>
   Info<dataType> LL1<dataType>::pop(){
     if (head==nullptr){
-      std::cout << "ERROR: List is empty \|°~°|/\n";
+      std::cout << "ERROR: List is empty °~°\n";
       std::exit(EXIT_FAILURE);
       }
     else{
       Info<dataType>* temp = head;
       head = head->next;
-      return temp;
+
+      return *temp;
     }
   }
 
