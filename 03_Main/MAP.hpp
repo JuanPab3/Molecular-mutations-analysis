@@ -5,9 +5,11 @@
 
 #include<iostream>
 #include<stdexcept>
+#include<stack>
 using namespace std;
 
 //Linked list to save the posit. of the 3-mer
+/*
 template<typename dataType>
 struct Node{
     dataType data;
@@ -41,13 +43,13 @@ public:
     dataType peek_back() const;
     dataType peek_front() const;
 };
-
+*/
 //Binary search tree
 
 template<typename keyType, typename dataType>
 struct bstNode{
     keyType key;
-    LL<dataType> data;
+    std::stack<dataType> data;
     bstNode<keyType, dataType> *parent;
     bstNode<keyType, dataType> *left;
     bstNode<keyType, dataType> *right;
@@ -84,7 +86,7 @@ public:
     bstNode<keyType,dataType>* find(keyType k){return find_node(root,k);}
     bstNode<keyType,dataType>* remove(keyType k){return remove_node(root, k);}
 
-    LL<dataType> get(keyType key);
+    std::stack<dataType> get(keyType key);
 };
 
 
@@ -93,6 +95,7 @@ public:
 
 /*=============================PUBLIC METHODS LL===================================*/
 
+/*
 //Constructor
 template<typename dataType>
 LL<dataType>::LL(){
@@ -207,7 +210,7 @@ template<typename dataType>
 dataType LL<dataType>::peek_back() const{
     dataType valor_retorno;
     if(head==nullptr){
-        std::cout << "ERROR: trying peek_back() on an empty list \|°~°|/\n";
+        std::cout << "ERROR: trying peek_back() on an empty list\n";
         std::exit(EXIT_FAILURE);
     }
     if(head->next==nullptr){
@@ -226,12 +229,12 @@ dataType LL<dataType>::peek_back() const{
 template<typename dataType>
 dataType LL<dataType>::peek_front() const{
     if(head==nullptr){
-        std::cout << "ERROR: trying peek_front() on an empty list \|°~°|/\n";
+        std::cout << "ERROR: trying peek_front() on an empty list\n";
         std::exit(EXIT_FAILURE);
     }
     return head->data;
 }
-
+*/
 /*=============================PRIVATE METHODS MAP===========================*/
 
 template <typename keyType, typename dataType>
@@ -242,10 +245,10 @@ void Map<keyType,dataType>::insert_node(bstNode<keyType,dataType>* &node, bstNod
       node->right=nullptr;
       node->parent=p;
       node->key=k;
-      (node->data).push_back(d); //data es una lista enlazada
+      (node->data).push(d); //data es una lista enlazada
     }else{//Si el key ya se encuentra en
       if(node->key==k){
-        (node->data).push_back(d);
+        (node->data).push(d);
       }else{
         if (node->key>k) {
           insert_node(node->left,node,k,d);
@@ -261,9 +264,13 @@ void Map<keyType, dataType>::display_node(bstNode<keyType,dataType> *node, int c
     if(node != nullptr){
       count++;
       display_node(node->left, count);
-      std::cout << "("<<count-1 << ") Key: " << node->key << ", "
-          << "Data: ";
-          node->data.display_ll();
+      std::cout << "("<<count-1 << ") [Key: " << node->key << ", "<< "Data: ";
+      std::stack<dataType> copy=node->data;
+      while (!copy.empty()) {
+        std::cout<<copy.top()<<"  ";
+        copy.pop();
+      }
+      std::cout<<"]";
 
       display_node(node->right, count);
     }
@@ -286,7 +293,7 @@ bstNode<keyType,dataType>* Map<keyType,dataType>::find_node(bstNode<keyType, dat
   if(node==nullptr){return nullptr; }
   if (node->key==k){
     return node;
-    node->data.display_ll();
+    //node->data.display_ll();
   }
   if (node->key<k){
     return find_node(node->right,k);
@@ -387,12 +394,9 @@ bstNode<keyType,dataType>* Map<keyType,dataType>::remove_node(bstNode<keyType,da
 
         bstNode<keyType,dataType>* s = successor(n);
         keyType new_key = s->key;
-        LL<dataType> new_data=s->data;
-        new_data.display_ll();
-        while (n->data.size()>0) {
-          n->data.pop_back();
-        }
-        n->data.copy(new_data);
+        std::stack<dataType> new_data=s->data;
+        //new_data.display_ll();
+        n->data=new_data;
         p = remove_node(s->parent, s->key);
         n->key = new_key;
 
@@ -404,13 +408,14 @@ bstNode<keyType,dataType>* Map<keyType,dataType>::remove_node(bstNode<keyType,da
 
 /*===================================PUBLIC METHODS===================================*/
 template<typename keyType, typename dataType>
-LL<dataType> Map<keyType, dataType>::get(keyType key){
+std::stack<dataType> Map<keyType, dataType>::get(keyType key){
   if(find(key)==nullptr){
     std::cout << "ERROR: Key not in Map \n";
     std::exit(EXIT_FAILURE);
   }
   return find(key)->data;
 }
+
 
 
 #endif
