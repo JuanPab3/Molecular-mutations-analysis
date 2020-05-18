@@ -115,7 +115,7 @@ std::string key_to_string(int key){
 }
 
 template <typename T>
-void add_k_mers(string cadena, LL1<T> list){
+void add_k_mers(string cadena, LL1<T> &list){
   int position = 0;
   for(std::string::iterator it = cadena.begin(); it != cadena.end()-2; ++it) {
     string k_mer="";
@@ -126,12 +126,41 @@ void add_k_mers(string cadena, LL1<T> list){
     k_mer+=b;
     k_mer+=c;
     int key = give_key(k_mer);
-    // std::cout << k_mer << " , " << key << '\n';
+    //std::cout << "k-mer:" << k_mer << "pos:" << position << ", " << key << '\n';
     //list.empty();
     list.push_back(k_mer, position, key);
-    list.size();
     position++;
     }
+  }
+
+  stack<string> permutaciones (string cad){
+    set <string> strset;
+    set <char> set;
+    stack <string> st;
+    for(std::string::iterator it = cad.begin(); it != cad.end(); ++it){
+      if (set.find(*it) == set.end())
+       set.insert(*it);
+    }
+    for (std::string::iterator it = cad.begin(); it != cad.end(); ++it){
+      string per (1,*it);
+
+        for (std::string::iterator it = cad.begin(); it != cad.end(); ++it){
+          per += *it;
+
+          for (std::string::iterator it = cad.begin(); it != cad.end(); ++it){
+            per += *it;
+            //cout << per << endl;
+            if (strset.find(per) == strset.end())
+            strset.insert(per);
+            per.pop_back();
+          }
+        per.pop_back();
+        }
+      per.pop_back();
+    }
+    for (std::set<string>::iterator it= strset.begin(); it != strset.end();++it)
+      st.push(*it);
+    return st;
   }
 
   //===============Position_LL:PUBLIC METHODS ===================
@@ -274,11 +303,11 @@ void add_k_mers(string cadena, LL1<T> list){
           std::cout << "Position:";
           tempo = curr->position;
           while (!tempo.empty()){
-            std::cout << tempo.top() <<" , ";
+            std::cout << tempo.top() << ", ";
             tempo.pop();
           }
           //curr->position.display();
-          std::cout << ", Key:"<< curr->key << " -> ";
+          std::cout << "Key:"<< curr->key << " -> ";
           curr = curr->next;
       }
       std::cout << "END \n";
