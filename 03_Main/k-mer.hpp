@@ -133,35 +133,35 @@ void add_k_mers(string cadena, LL1<T> &list){
     }
   }
 
-  stack<string> permutaciones (string cad){
-    set <string> strset;
-    set <char> set;
-    stack <string> st;
-    for(std::string::iterator it = cad.begin(); it != cad.end(); ++it){
-      if (set.find(*it) == set.end())
-       set.insert(*it);
-    }
-    for (std::string::iterator it = cad.begin(); it != cad.end(); ++it){
-      string per (1,*it);
-
-        for (std::string::iterator it = cad.begin(); it != cad.end(); ++it){
-          per += *it;
-
-          for (std::string::iterator it = cad.begin(); it != cad.end(); ++it){
-            per += *it;
-            //cout << per << endl;
-            if (strset.find(per) == strset.end())
-            strset.insert(per);
-            per.pop_back();
-          }
-        per.pop_back();
-        }
-      per.pop_back();
-    }
-    for (std::set<string>::iterator it= strset.begin(); it != strset.end();++it)
-      st.push(*it);
-    return st;
-  }
+  // stack<string> permutaciones (string cad){
+  //   set <string> strset;
+  //   set <char> set;
+  //   stack <string> st;
+  //   for(std::string::iterator it = cad.begin(); it != cad.end(); ++it){
+  //     if (set.find(*it) == set.end())
+  //      set.insert(*it);
+  //   }
+  //   for (std::string::iterator it = cad.begin(); it != cad.end(); ++it){
+  //     string per (1,*it);
+  //
+  //       for (std::string::iterator it = cad.begin(); it != cad.end(); ++it){
+  //         per += *it;
+  //
+  //         for (std::string::iterator it = cad.begin(); it != cad.end(); ++it){
+  //           per += *it;
+  //           //cout << per << endl;
+  //           if (strset.find(per) == strset.end())
+  //           strset.insert(per);
+  //           per.pop_back();
+  //         }
+  //       per.pop_back();
+  //       }
+  //     per.pop_back();
+  //   }
+  //   for (std::set<string>::iterator it= strset.begin(); it != strset.end();++it)
+  //     st.push(*it);
+  //   return st;
+  // }
 
   //===============Position_LL:PUBLIC METHODS ===================
   //Position_LL::Position_LL(){

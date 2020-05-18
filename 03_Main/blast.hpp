@@ -5,6 +5,7 @@
 #include "BST_arr.hpp"
 #include "k-mer.hpp"
 #include <iostream>
+#include <fstream>
 #include "swa.hpp"
 #include "MAP.hpp"
 #include <string>
@@ -24,9 +25,11 @@ private:
 
     int HSSP = 3;
 
-    std::vector<std::string> permutaciones = {"ACT","AGT","GTA","GAC"}/*permut("AGCT")*/;
+    std::vector<std::string> permutaciones = file_permut("permutaciones.txt");
     std::vector<int> permutaciones_keys;
     Forest sistema_d_clasificasion;
+
+    std::vector<std::string> file_permut(std::string file_name);
 
 public:
     /*Constructors&Destructors*/
@@ -69,11 +72,12 @@ Blast::Blast(std::stack<std::string> database, std::string query) {
         Modifica LL1<std::string> k_mers para que contenga unas llaves que representan
         los kmers codificados junto con las posiciones donde estos se encuentran.
         */
-        std::cout << "element: " << element << '\n';
-        std::cout << "k_mers size: " << k_mers.size() << '\n';
         // std::cout << "WORKING: " << /*key_to_string(value)*/"LOL" << '\n';
+
         add_k_mers(element,k_mers);
 
+        std::cout << "element: " << element << '\n';
+        std::cout << "k_mers size: " << k_mers.size() << '\n';
         // k_mers.display_ll();
         /*Creacion de arbol de comparacion*/
         Map<int,int> comparison_Tree;
@@ -120,4 +124,22 @@ Blast::Blast(std::stack<std::string> database, std::string query) {
 
 void Blast::display_one(int & num) const {
     sistema_d_clasificasion.tree_display(num);
+}
+
+std::vector<std::string> Blast::file_permut(std::string file_name) {
+    std::vector<std::string> fin_al;
+    ifstream permut(file_name);
+    string p;
+
+    if (permut.good()) {
+        while (true) {
+              permut >> p;
+              fin_al.push_back(p);
+              if (permut.eof()) break;
+          }
+      } else {
+          cerr << "/* UPSSSS hay un error con el permutaciones.txt  °~° */" << endl;
+      }permut.close();
+
+      return fin_al;
 }
