@@ -89,8 +89,6 @@ Blast::Blast(std::stack<std::string> database, std::string query) {
 
                 while (!temp.position.empty()) {
                     /*Agregando al arbol de comparacion cada elemento valido con su respectiva posicion individualmente*/
-                    // std::cout << "temp key: " << temp.key << "\n";
-                    // std::cout << "tepmt pos top: " << temp.position.top() << "\n";
                     comparison_Tree.insert(temp.key,temp.position.top());
                     temp.position.pop();
                 }
@@ -99,7 +97,6 @@ Blast::Blast(std::stack<std::string> database, std::string query) {
             /*Inicio de comparacion entre llaves del Query con las llaves de database*/
             int sz2 = permutaciones_keys.size();
 
-            // std::cout << "sz2: " << sz2 << "\n";
 
             for (int i = 0; i < sz2;i++){
 
