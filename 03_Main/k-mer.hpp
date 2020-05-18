@@ -33,6 +33,7 @@ using namespace std;
 
 template<typename dataType>
 struct Info{
+    int size = 0;
     dataType k_mer;
     stack<int> position;
     int key;
@@ -267,14 +268,16 @@ void add_k_mers(string cadena, LL1<T> &list){
           temp-> position.push(position);
           temp-> key = key;
           temp->next = nullptr;
+          temp->size++;
           head = temp;
           count++;
       }
       else{ //Si hay algo en la lista
           if (find(key) != nullptr){ //Si el elemento está repetido
             Info<dataType>* element = find(key);
-            std::cout << element->key << '\n';
+            // std::cout << element->key << '\n';
             element->position.push(position);
+            element->size++;
           }
           else{
             Info<dataType>*temp=head;
@@ -284,6 +287,7 @@ void add_k_mers(string cadena, LL1<T> &list){
             Info<dataType>*new_info= new Info<dataType>;
             new_info->k_mer = k_mer;
             new_info-> position.push(position);
+            new_info->size++;
             new_info-> key = key;
             new_info->next=nullptr;
             temp->next=new_info;
@@ -341,12 +345,15 @@ void add_k_mers(string cadena, LL1<T> &list){
     if (head==nullptr){
       std::cout << "ERROR: List is empty °~°\n";
       std::exit(EXIT_FAILURE);
-      }
-    else{
-      Info<dataType>* temp = head;
-      head = head->next;
 
-      return *temp;
+    } else{
+      Info<dataType>* temp = head;
+      Info<dataType> it = *temp;
+      head = head->next;
+      count -= temp->size;
+      delete temp;
+      return it;
+
     }
   }
 

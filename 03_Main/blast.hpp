@@ -23,7 +23,7 @@
 class Blast {
 private:
 
-    int HSSP = 3;
+    int HSSP = 5;
 
     std::vector<std::string> permutaciones = file_permut("permutaciones.txt");
     std::vector<int> permutaciones_keys;
@@ -66,40 +66,44 @@ Blast::Blast(std::stack<std::string> database, std::string query) {
             }
         }
 
+
+
         /*Inicio para determinar los K_mers aptos para la comparacion*/
         LL1<std::string> k_mers; /*Linked List*/
         /*
         Modifica LL1<std::string> k_mers para que contenga unas llaves que representan
         los kmers codificados junto con las posiciones donde estos se encuentran.
         */
-        // std::cout << "WORKING: " << /*key_to_string(value)*/"LOL" << '\n';
 
         add_k_mers(element,k_mers);
 
-        std::cout << "element: " << element << '\n';
-        std::cout << "k_mers size: " << k_mers.size() << '\n';
-        // k_mers.display_ll();
+
         /*Creacion de arbol de comparacion*/
         Map<int,int> comparison_Tree;
         while (!k_mers.empty()) {
+            if (k_mers.size() != 0) {
+                Info<std::string> temp = k_mers.pop(); /*Un elemento descrito en k_mers.hpp*/
 
-            Info<std::string> temp = k_mers.pop(); /*Un elemento descrito en k_mers.hpp*/
-
-            while (!temp.position.empty()) {
-                /*Agregando al arbol de comparacion cada elemento valido con su respectiva posicion individualmente*/
-                comparison_Tree.insert(temp.key,temp.position.top());
-                temp.position.pop();
+                while (!temp.position.empty()) {
+                    /*Agregando al arbol de comparacion cada elemento valido con su respectiva posicion individualmente*/
+                    // std::cout << "temp key: " << temp.key << "\n";
+                    // std::cout << "tepmt pos top: " << temp.position.top() << "\n";
+                    comparison_Tree.insert(temp.key,temp.position.top());
+                    temp.position.pop();
+                }
             }
 
             /*Inicio de comparacion entre llaves del Query con las llaves de database*/
             int sz2 = permutaciones_keys.size();
+
+            std::cout << "sz2: " << sz2 << "\n";
 
             for (int i = 0; i < sz2;i++){
 
                 /*Buscar coincidencias entre las permutaciones validas (entre AGTC) con los k_mers*/
                 bstNode<int,int> *temp_treeP = comparison_Tree.find(permutaciones_keys[i]);
 
-
+                if (temp_treeP == nullptr) std::cout<< "FUUUCK!\n";
                 if (temp_treeP != nullptr) {
                     while (!temp_treeP->data.empty()) {
                         int value = temp_treeP->data.top();
@@ -108,16 +112,17 @@ Blast::Blast(std::stack<std::string> database, std::string query) {
                         /*Watermelon algorithm applied*/
                         int val = permutaciones_keys[i];
 
-
                         std::string pki = key_to_string(val);
+                        std::cout << "KEY PK: " << pki << "\n";
+                        std::cout << "KEY VA: " << key_to_string(value) << "\n";
                         ScoringMatrix mat(key_to_string(value),pki);
                         total_points += mat.points();
                     }
                 }
             }
-            float porcent = (total_points * 100.0)/max_size;
-            sistema_d_clasificasion.insert(porcent, element);
         }
+        float porcent = (total_points * 100.0)/max_size;
+        sistema_d_clasificasion.insert(porcent, element);
     }
 }
 
